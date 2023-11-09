@@ -47,12 +47,12 @@ for (let i = 0; i < posts.length; i++) {
                 <img class="photo-post" src="${posts[i].post}" alt="post-image">
             </div>
             <div class="post-features">
-                <img class="heart" id="heart-el" src="images/icon-heart.png" alt="icon-heart">
+                <i class="heart fas fa-heart"></i>
                 <img class="comment" src="images/icon-comment.png" alt="icon-comment">
                 <img class="share" src="images/icon-dm.png" alt="icon-dm">
             </div>
-            <div class="likes">
-                <p id="like-el" >${posts[i].likes} likes</p>
+            <div class="like">
+                <p class="likes" id="like-el" >${posts[i].likes} likes</p>
             </div>
             <div class="comments">
                 <h1>${posts[i].username}</h1>
@@ -64,11 +64,23 @@ for (let i = 0; i < posts.length; i++) {
 
 mainEl.innerHTML = html;
 
-const clicktLikeEl = document.getElementById("heart-el");
+const clicktLikeEl = document.querySelector(".heart");
 const countLikesEL = document.getElementById("like-el");
-let count = 21;
+const hearts = document.querySelectorAll(".heart");
 
-clicktLikeEl.addEventListener("click", function () {
-  count += 1;
-  countLikesEL.innerText = count + " likes";
-});
+for (let heart of hearts) {
+  heart.addEventListener("click", function () {
+    const likes = heart.closest(".post").querySelector(".likes");
+    let count = parseInt(likes.textContent);
+    if (heart.classList.contains("liked")) {
+      heart.classList.remove("liked");
+      heart.style.color = "black";
+      count--;
+    } else {
+      heart.classList.add("liked");
+      heart.style.color = "red";
+      count++;
+    }
+    likes.textContent = count + " likes";
+  });
+}
